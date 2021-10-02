@@ -4,4 +4,4 @@ import * as cdk from '@aws-cdk/core';
 import { AwsSamCliCdkHelloWorldStack } from '../lib/aws-sam-cli-cdk-hello-world-stack';
 
 const app = new cdk.App();
-new AwsSamCliCdkHelloWorldStack(app, 'python3.8');
+new AwsSamCliCdkHelloWorldStack(app, 'hello_world');
