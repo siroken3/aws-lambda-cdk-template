@@ -11,10 +11,8 @@ s3 = boto3.client('s3')
 
 def lambda_handler(event, context):
     """
-    Removes a delete marker from the specified versioned object.
-
-    Original code: https://docs.aws.amazon.com/AmazonS3/latest/userguide/batch-ops-invoke-lambda.html#batch-ops-invoke-lambda-custom-functions
-
+    Sample of batch operation lambda function.
+    
     :param event: The S3 batch event that contains the ID of the delete marker
                   to remove.
     :param context: Context about the event.
@@ -38,45 +36,9 @@ def lambda_handler(event, context):
         obj_version_id = task['s3VersionId']
         bucket_name = task['s3BucketArn'].split(':')[-1]
 
-        logger.info("Got task: remove delete marker %s from object %s.",
-                    obj_version_id, obj_key)
-
-        try:
-            # If this call does not raise an error, the object version is not a delete
-            # marker and should not be deleted.
-            response = s3.head_object(
-                Bucket=bucket_name, Key=obj_key, VersionId=obj_version_id)
-            result_code = 'PermanentFailure'
-            result_string = f"Object {obj_key}, ID {obj_version_id} is not " \
-                            f"a delete marker."
-
-            logger.debug(response)
-            logger.warning(result_string)
-        except ClientError as error:
-            delete_marker = error.response['ResponseMetadata']['HTTPHeaders'] \
-                .get('x-amz-delete-marker', 'false')
-            if delete_marker == 'true':
-                logger.info("Object %s, version %s is a delete marker.",
-                            obj_key, obj_version_id)
-                try:
-                    s3.delete_object(
-                        Bucket=bucket_name, Key=obj_key, VersionId=obj_version_id)
-                    result_code = 'Succeeded'
-                    result_string = f"Successfully removed delete marker " \
-                                    f"{obj_version_id} from object {obj_key}."
-                    logger.info(result_string)
-                except ClientError as error:
-                    # Mark request timeout as a temporary failure so it will be retried.
-                    if error.response['Error']['Code'] == 'RequestTimeout':
-                        result_code = 'TemporaryFailure'
-                        result_string = f"Attempt to remove delete marker from  " \
-                                        f"object {obj_key} timed out."
-                        logger.info(result_string)
-                    else:
-                        raise
-            else:
-                raise ValueError(f"The x-amz-delete-marker header is either not "
-                                 f"present or is not 'true'.")
+        logger.info("Got task: hello world to bucket %s to object %s of version %s.",
+                    bucket_name, obj_key, obj_version_id)
+        result_code = 'Succeeded'
     except Exception as error:
         # Mark all other exceptions as permanent failures.
         result_code = 'PermanentFailure'
