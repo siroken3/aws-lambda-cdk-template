@@ -14,3 +14,6 @@ This repository provides templates for Lambda projects beyond the basic usage.
 ```console
 $ sam init --location gh:siroken3/aws-lambda-sam-cdk-template/s3-batch-operations/python3.8
 ```
+
+## Reference
+- [Amazon S3 Batch Operations userguide](https://docs.aws.amazon.com/AmazonS3/latest/userguide/batch-ops-invoke-lambda.html)
