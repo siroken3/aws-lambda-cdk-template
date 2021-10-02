@@ -3,9 +3,9 @@
 AWS Serverless Application Model (SAM) `sam init` command provids template project of basic lambda function. However, lambda usecases are not only API gateway backends but also other AWS services.
 This repository provides templates for Lambda projects beyond the basic usage.
 
-## Support AWS Service
+## Supported AWS Services
 
-- S3 batch operations
+- [Amazon S3 Batch Operations](https://aws.amazon.com/s3/features/batch-operations/)
     - CDK Runtime: Typescript
     - Lambda Runtime: Python3.8
 
