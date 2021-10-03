@@ -34,6 +34,7 @@ export class AwsSamCliCdkHelloWorldStack extends cdk.Stack {
     let role = new iam.Role(this, 'hello-world-role', {
       assumedBy: new iam.ServicePrincipal('batchoperations.s3.amazonaws.com'),
     });
+    this.role.assumeRolePolicy
     this.role.addToPolicy(new iam.PolicyStatement({
       resources: [
         "*"
